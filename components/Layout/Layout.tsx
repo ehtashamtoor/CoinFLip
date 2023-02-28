@@ -1,11 +1,17 @@
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 
-const Layout = ({ children }: { children: ReactNode }) => {
+interface Props {
+  children: ReactNode
+  setShowModal: Dispatch<SetStateAction<boolean>>
+}
+
+
+const Layout = ({ children, setShowModal }: Props) => {
   return (
-    <div >
-      <Navbar />
+    <div>
+      <Navbar setShowModal={setShowModal} />
       <div className="conatiner mx-auto">
         {children}
       </div>

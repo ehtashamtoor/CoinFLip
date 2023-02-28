@@ -7,14 +7,18 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.11",
+    "@hookform/resolvers": "^2.9.11",
     "@types/recoil": "^0.0.9",
+    "firebase": "^9.17.1",
     "flowbite-react": "^0.3.8",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.2",
     "react-icons": "^4.7.1",
     "recoil": "^0.7.6",
-    "use-sound": "^4.0.1"
+    "use-sound": "^4.0.1",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@types/node": "18.11.3",

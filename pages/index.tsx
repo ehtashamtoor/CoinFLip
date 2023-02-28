@@ -1,12 +1,15 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import Allbets from '../components/Allbets/Allbets'
 import FlipGame from '../components/flipGameComponent/FlipGame'
 import GroupChat from '../components/GroupChat/GroupChat'
 import LatestBets from '../components/LatestBets/LatestBets'
 import Layout from '../components/Layout/Layout'
 import LeaderBoard from '../components/leaderBoard/LeaderBoard'
+import Modal from '../components/Modal/Modal'
 
 const Home = () => {
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="bg-bodyBg-900">
@@ -15,7 +18,8 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
+      <Layout setShowModal={setShowModal}>
+        <Modal showModal={showModal} setShowModal={setShowModal}/>
         <FlipGame />
         <div className='md:mx-14 mx-6 grid grid-cols-12 gap-x-4 items-center'>
           <GroupChat />

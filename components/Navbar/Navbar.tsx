@@ -1,11 +1,15 @@
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 import logo from '/public/assests/images/JCF_LOGO.png'
 import { HiX } from 'react-icons/hi'
 import { FaBars } from 'react-icons/fa'
 
-const Navbar = () => {
+interface Props {
+  setShowModal: Dispatch<SetStateAction<boolean>>
+}
+
+const Navbar = ({ setShowModal }: Props) => {
 
   let [innerNav, setInnerNav] = useState<boolean>(false);
 
@@ -39,14 +43,18 @@ const Navbar = () => {
           }
         </span>
 
-        <span className="text-[#e9cb70] text-lg py-2 px-4 rounded-lg font-semibold hover:bg-navbg-800 hidden md:block">
+        <span className="text-[#e9cb70] text-lg py-2 px-4 rounded-lg font-semibold hover:bg-navbg-800 hidden md:block" onClick={() => {
+          setShowModal(true);
+        }}>
           <h3>Connect</h3>
         </span>
       </div>
 
       {
         innerNav && <div className="w-fit mx-auto text-[#e9cb70] text-lg py-2 px-3 rounded-lg font-semibold hover:bg-navbg-800">
-          <button className="">Select Wallet</button>
+          <button onClick={()=>{
+            setShowModal(true);
+          }}>Connect Wallet</button>
         </div>
       }
     </nav>
