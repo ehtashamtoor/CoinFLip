@@ -58,7 +58,7 @@ const Modal = ({ showModal, setShowModal }: PropTypes) => {
 
                   <div className="pl-1">
                     {
-                      LoginState ? <Login setLoginState={setLoginState}/> : <Register setLoginState={setLoginState}/>
+                      LoginState ? <Login setLoginState={setLoginState} setShowModal={setShowModal}/> : <Register setLoginState={setLoginState} setShowModal={setShowModal}/>
                     }
                   </div>
                 </div>

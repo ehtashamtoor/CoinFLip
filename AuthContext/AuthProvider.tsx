@@ -12,7 +12,7 @@ interface IAuth {
   user: User | null
   signInEP: (email: string, password: string) => Promise<void>
   signUpEP: (email: string, password: string) => Promise<void>
-  signUpGoogle: () => void
+  signUpGoogle: () => Promise<void>
   logOut: () => Promise<void>
   loading: boolean
   error: string | null
@@ -60,11 +60,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // signUp with Email and Password
   const signUpEP = async (email: string, password: string) => {
     setloading(true)
-    console.log(email, password)
+    
     await createUserWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         setUser(userCredential.user)
-        // router.push("/ok")
+        // router.push("/dashboard")
         sendEmailVerification(userCredential.user)
       })
       .catch(err => console.log(err.message))

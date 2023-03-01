@@ -1,20 +1,21 @@
-import Image from "next/image"
-import Link from "next/link"
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from '../../Schemas';
 import useAuth from "../../AuthContext/AuthProvider";
 import { Dispatch, SetStateAction } from "react";
+import { toast } from "react-toastify";
 
 interface FormValues {
   email: string
   password: string
 }
 
-interface Props{
+interface Props {
   setLoginState: Dispatch<SetStateAction<boolean>>
+  setShowModal: Dispatch<SetStateAction<boolean>>
 }
-const Login = ({setLoginState}: Props) => {
+const Login = ({ setLoginState, setShowModal }: Props) => {
   const { signInEP } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     resolver: yupResolver(LoginSchema),
@@ -22,8 +23,14 @@ const Login = ({setLoginState}: Props) => {
 
   const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
-
-    await signInEP(email, password)
+    try {
+      await signInEP(email, password)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      toast.success("User login successful");
+      setShowModal(false)
+    }
   };
   return (
     <section className="bg-footerBg-900">

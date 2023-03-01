@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useState } from 'react'
+
 import Allbets from '../components/Allbets/Allbets'
 import FlipGame from '../components/flipGameComponent/FlipGame'
 import GroupChat from '../components/GroupChat/GroupChat'
@@ -13,13 +14,14 @@ const Home = () => {
 
   return (
     <div className="bg-bodyBg-900">
+      
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Layout setShowModal={setShowModal}>
-        <Modal showModal={showModal} setShowModal={setShowModal}/>
+        <Modal showModal={showModal} setShowModal={setShowModal} />
         <FlipGame />
         <div className='md:mx-14 mx-6 grid grid-cols-12 gap-x-4 items-center'>
           <GroupChat />

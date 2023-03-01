@@ -16,7 +16,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.2",
     "react-icons": "^4.7.1",
-    "recoil": "^0.7.6",
+    "react-toastify": "^9.1.1",
     "use-sound": "^4.0.1",
     "yup": "^1.0.2"
   },

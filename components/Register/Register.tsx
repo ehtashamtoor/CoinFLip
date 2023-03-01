@@ -1,5 +1,5 @@
 
-import Link from "next/link"
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RegisterSchema } from '../../Schemas';
@@ -17,8 +17,9 @@ interface FormValues {
 }
 interface Props {
   setLoginState: Dispatch<SetStateAction<boolean>>
+  setShowModal: Dispatch<SetStateAction<boolean>>
 }
-const Register = ({ setLoginState }: Props) => {
+const Register = ({ setLoginState, setShowModal }: Props) => {
 
   const { signUpEP, signUpGoogle } = useAuth();
 
@@ -29,12 +30,25 @@ const Register = ({ setLoginState }: Props) => {
   const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
     // console.log(data)
-
-    await signUpEP(email, password)
+    try {
+      await signUpEP(email, password)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setShowModal(false)
+      toast.success("User signup successful");
+    }
   };
 
   const handleSignupGoogle = async () => {
-    await signUpGoogle();
+    try {
+      await signUpGoogle();
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setShowModal(false)
+      toast.success("User signup successful");
+    }
   }
 
   return (
