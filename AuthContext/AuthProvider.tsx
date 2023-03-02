@@ -1,17 +1,23 @@
 
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, User, signOut, onAuthStateChanged, sendEmailVerification } from "firebase/auth"
+import { addDoc, collection } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { createContext, ReactNode, useContext, useMemo, useState, useEffect } from "react"
-import { auth } from "../firebase";
+import { auth, database } from "../firebase";
 
 interface AuthProviderProps {
   children: ReactNode
 }
 
+interface UserType {
+  name: string
+  email: string
+  password: string
+}
 interface IAuth {
   user: User | null
   signInEP: (email: string, password: string) => Promise<void>
-  signUpEP: (email: string, password: string) => Promise<void>
+  signUpEP: (UserData: UserType) => Promise<void>
   signUpGoogle: () => Promise<void>
   logOut: () => Promise<void>
   loading: boolean
@@ -29,11 +35,11 @@ const AuthContext = createContext<IAuth>({
 })
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const router = useRouter();
+  const dbRef = collection(database, "users");
+  // const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(null);
-  // const [initialLoading, setinitialLoading] = useState(true);
 
   //google provider object
   const provider = new GoogleAuthProvider();
@@ -48,27 +54,34 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         // user not logged in
         setUser(null)
         setloading(true)
-        // router.push("/login")
       }
-
     })
   },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [auth]);
 
-
   // signUp with Email and Password
-  const signUpEP = async (email: string, password: string) => {
+  const signUpEP = async (UserData: UserType) => {
     setloading(true)
-    
-    await createUserWithEmailAndPassword(auth, email, password)
+
+    // console.log(UserData) // data received
+
+    let result = await createUserWithEmailAndPassword(auth, UserData.email, UserData.password)
       .then(userCredential => {
         setUser(userCredential.user)
         // router.push("/dashboard")
         sendEmailVerification(userCredential.user)
+        console.log("user signed up")
+
+        // send data to db document
+        addDoc(dbRef, UserData)
+
+        return userCredential.user
       })
-      .catch(err => console.log(err.message))
+      .catch(err => err.message)
       .finally(() => setloading(false));
+
+    return result;
   }
   // sign In with Email and Password
   const signInEP = async (email: string, password: string) => {
@@ -77,7 +90,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await signInWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         setUser(userCredential.user)
-        // router.push("/dashboard")
+        console.log("user Logged in")
       })
       .catch(err => console.log(err.message))
       .finally(() => setloading(false));
@@ -90,6 +103,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     signOut(auth)
       .then(() => {
         setUser(null);
+        console.log("user logged out")
       })
       .catch(error => alert(error.message))
       .finally(() => setloading(false));
@@ -99,11 +113,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signUpGoogle = async () => {
     setloading(true);
 
-
     await signInWithPopup(auth, provider)
       .then(userCredential => {
         setUser(userCredential.user)
-        // router.push("/dashboard")
+        console.log("user signed up")
         sendEmailVerification(userCredential.user)
       })
       .catch(err => console.log(err.message))

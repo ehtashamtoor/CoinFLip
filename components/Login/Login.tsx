@@ -23,8 +23,10 @@ const Login = ({ setLoginState, setShowModal }: Props) => {
 
   const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
+    
     try {
-      await signInEP(email, password)
+      await signInEP(email, password);
+      
     } catch (error) {
       console.log(error)
     } finally {

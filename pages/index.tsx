@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useState } from 'react'
+import useAuth from '../AuthContext/AuthProvider'
 
 import Allbets from '../components/Allbets/Allbets'
 import FlipGame from '../components/flipGameComponent/FlipGame'
@@ -12,9 +13,13 @@ import Modal from '../components/Modal/Modal'
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
 
+  const { user } = useAuth();
+
+  // console.log(user?.email);
+
   return (
     <div className="bg-bodyBg-900">
-      
+
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />

@@ -28,15 +28,22 @@ const Register = ({ setLoginState, setShowModal }: Props) => {
   });
 
   const onSubmit = async (data: FormValues) => {
-    const { email, password } = data;
-    // console.log(data)
+    const { name, email, password } = data;
+    // console.log(dbRef);
+    const dataTosend = {
+      name,
+      email,
+      password
+    }
+
     try {
-      await signUpEP(email, password)
+      let result = await signUpEP(dataTosend);
+
+      console.log(result)
+      // setShowModal(false)
+      // toast.success("User signup successful");
     } catch (error) {
       console.log(error)
-    } finally {
-      setShowModal(false)
-      toast.success("User signup successful");
     }
   };
 
@@ -69,7 +76,7 @@ const Register = ({ setLoginState, setShowModal }: Props) => {
               <button className="text-2xl col-span-4 mx-auto flex items-center justify-center space-x-2 shadow-md p-2 rounded-lg border-2 border-white" onClick={() => handleSignupGoogle()}>
                 <FcGoogle className="text-3xl" />
                 <span className="md:text-1xl text-lg text-white">
-                  SignUp with Google Account
+                  SignIn with Google Account
                 </span>
               </button>
             </div>
