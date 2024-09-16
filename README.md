@@ -27,7 +27,7 @@ This project is a **Next.js** application that provides a coin flip functionalit
 1. Clone this repository:
 
    ```bash
-   git clone [https://github.com/ehtashamtoor/coin-flip.git](https://github.com/ehtashamtoor/CoinFLip.git)
+   git clone https://github.com/ehtashamtoor/CoinFLip.git
    ```
 
 2. Install dependencies:
